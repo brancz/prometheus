@@ -1,4 +1,20 @@
-## 2.1.0 / 2018-1-19
+## 2.2.0 / 2018-02-12
+
+* [CHANGE] Set consul server default to `localhost:8500`.
+* [CHANGE] Rename file SD mtime metric.
+* [CHANGE] Change fule file formatting.
+* [ENHANCEMENT] Federation performance improvement.
+* [ENHANCEMENT] Read bearer token file on every scrape.
+* [ENHANCEMENT] Improve typeahead on `/graph` page.
+* [BUGFIX] Fix races in discovery.
+* [BUGFIX] Fix Kubernetes endpoints SD for empty subsets.
+* [BUGFIX] Throttle updates from SD providers, which caused increased CPU usage and allocations.
+* [BUGFIX] Fix TSDB block reload issue.
+* [BUGFIX] Fix PromQL printing of empty `without()`.
+* [BUGFIX] Don't reset FiredAt for inactive alerts.
+* [BUGFIX] Fix erroneous file version changes and repair existing data.
+
+## 2.1.0 / 2018-01-19
 
 * [FEATURE] New Service Discovery UI showing labels before and after relabelling.
 * [FEATURE] New Admin APIs added to v1 to delete, snapshot and remove tombstones.
