@@ -50,6 +50,7 @@ import (
 	sd_config "github.com/prometheus/prometheus/discovery/config"
 	"github.com/prometheus/prometheus/notifier"
 	"github.com/prometheus/prometheus/promql"
+	"github.com/prometheus/prometheus/receive"
 	"github.com/prometheus/prometheus/rules"
 	"github.com/prometheus/prometheus/scrape"
 	"github.com/prometheus/prometheus/storage"
@@ -280,6 +281,7 @@ func main() {
 	cfg.web.ScrapeManager = scrapeManager
 	cfg.web.RuleManager = ruleManager
 	cfg.web.Notifier = notifier
+	cfg.web.Receiver = receive.NewReceiver(log.With(logger, "component", "receiver"), fanoutStorage)
 
 	cfg.web.Version = &web.PrometheusVersion{
 		Version:   version.Version,

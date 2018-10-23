@@ -58,6 +58,7 @@ import (
 	"github.com/prometheus/prometheus/notifier"
 	"github.com/prometheus/prometheus/pkg/labels"
 	"github.com/prometheus/prometheus/promql"
+	"github.com/prometheus/prometheus/receive"
 	"github.com/prometheus/prometheus/rules"
 	"github.com/prometheus/prometheus/scrape"
 	"github.com/prometheus/prometheus/storage"
@@ -104,6 +105,7 @@ type Handler struct {
 	tsdb          func() *tsdb.DB
 	storage       storage.Storage
 	notifier      *notifier.Manager
+	receiver      *receive.Receiver
 
 	apiV1 *api_v1.API
 
@@ -154,6 +156,7 @@ type Options struct {
 	ScrapeManager *scrape.Manager
 	RuleManager   *rules.Manager
 	Notifier      *notifier.Manager
+	Receiver      *receive.Receiver
 	Version       *PrometheusVersion
 	Flags         map[string]string
 
@@ -210,6 +213,7 @@ func New(logger log.Logger, o *Options) *Handler {
 		tsdb:          o.TSDB,
 		storage:       o.Storage,
 		notifier:      o.Notifier,
+		receiver:      o.Receiver,
 
 		now: model.Now,
 
@@ -259,6 +263,8 @@ func New(logger log.Logger, o *Options) *Handler {
 	router.Get("/federate", readyf(httputil.CompressionHandler{
 		Handler: http.HandlerFunc(h.federation),
 	}.ServeHTTP))
+
+	router.Post("/receive", readyf(h.receive))
 
 	router.Get("/consoles/*filepath", readyf(h.consoles))
 
